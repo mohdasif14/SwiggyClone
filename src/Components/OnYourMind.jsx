@@ -28,9 +28,9 @@ function OnYourMind({data}) {
   return (
     <div>
       <div className='flex justify-between overflow-hidden'>
-      <h2 className='font-bold text-[22px]'>What's on your mind?</h2>
+      <h2 className='font-bold text-[18px] sm:text-[20px] lg:text-[22px]'>What's on your mind?</h2>
 
-      <div className='text-3xl text-black mr-4 mt-1'>
+      <div className='text-2xl lg:text-3xl text-black mr-2 lg:mr-4 mt-1 shrink-0'>
         <i
           className="fi fi-rs-arrow-circle-left mr-4 cursor-pointer"
           onClick={slideLeft}
@@ -51,8 +51,8 @@ function OnYourMind({data}) {
         <img
           key={item.imageId}
           src={`https://media-assets.swiggy.com/swiggy/image/upload/,f_auto,q_auto,w_288,h_360/${item.imageId}`}
-          className='w-36 h-45 mr-7'
-        />
+          className='w-28 h-36 sm:w-32 sm:h-40 lg:w-36 lg:h-45 mr-4 lg:mr-7 shrink-0'
+/>
       ))}
     </div>
     

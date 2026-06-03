@@ -52,7 +52,7 @@ function RestaurantMenu() {
 
   return (
     <div className="w-full">
-      <div className="w-[800px] mx-auto pt-6">
+      <div className="w-full max-w-[800px] mx-auto px-4 lg:px-0 pt-6">
         <p className="text-[11px] font-semibold text-slate-400 ">
           <Link to={"/"}>
             <span className="cursor-pointer hover:text-slate-950 mr-0.5">
@@ -66,7 +66,7 @@ function RestaurantMenu() {
           / <span className="text-slate-950 ml-0.5">{resInfo.name}</span>
         </p>
         <h1 className="text-3xl font-bold pt-6 pl-2">{resInfo.name}</h1>
-        <div className="w-full h-[165px] pb-4 px-4 rounded-4xl bg-linear-to-t from-gray-300 mt-7">
+        <div className="w-full min-h-[165px] pb-4 px-2 sm:px-4 rounded-4xl bg-linear-to-t from-gray-300 mt-7">
           <div className="w-full h-full bg-white border border-gray-300 rounded-3xl p-4">
             <div className="flex items-center gap-2 font-bold">
               <i className="fi fi-sr-circle-star text-green-600 mt-1.5 text-[18px]"></i>
@@ -120,7 +120,7 @@ function RestaurantMenu() {
             className="flex items-center overflow-x-scroll no-scrollbar scroll-smooth"
           >
             {discountData.map(({ info }) => (
-              <div className="flex items-center gap-3 mr-3 p-3 border border-gray-400/40 rounded-2xl w-82 h-19 shrink-0 mt-2">
+              <div className="flex items-center gap-3 mr-3 p-3 border border-gray-400/40 rounded-2xl w-[280px] sm:w-82 h-19 shrink-0 mt-2">
                 <img
                   src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,/${info?.offerLogo}`}
                   className="w-12 h-12"
@@ -261,8 +261,9 @@ function DetailMenu({ card, isNested,resInfo }) {
         {isOpen &&
           itemCards.map(({ card: { info } }) => (
             <div>
-              <div key={info.id} className="flex gap-8 py-7 pl-4 items-center">
-                <div className="flex-1 gap-3 w-[70%]">
+              <div key={info.id}
+                    className="flex flex-col md:flex-row gap-6 py-7 pl-2 sm:pl-4 items-center">
+                <div className="flex-1 gap-3 w-full md:w-[70%]">
                   <p>
                     {info.itemAttribute.vegClassifier === "VEG" ? (
                       <img
@@ -305,10 +306,10 @@ function DetailMenu({ card, isNested,resInfo }) {
                     </span>
                   </p>
                 </div>
-                <div className="w-[30%] flex flex-col items-center h-[200px] relative">
+                <div className="w-full md:w-[30%] flex flex-col items-center h-[200px] relative">
 
                     {info.imageId && <img
-                    className="w-39 h-36 rounded-lg object-cover"
+                    className="w-32 h-28 sm:w-39 sm:h-36 rounded-lg object-cover"
                     src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/${info.imageId}`}
                     alt=""
                   />}

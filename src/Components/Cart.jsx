@@ -39,12 +39,12 @@ function Cart() {
 
   return (
     <div className="w-full bg-gray-100 min-h-screen py-10">
-      <div className="w-[80%] mx-auto flex gap-6">
+      <div className="w-[95%] lg:w-[80%] mx-auto flex flex-col lg:flex-row gap-6">
         
         {/* LEFT: CART ITEMS */}
-        <div className="w-[65%] bg-white rounded-xl shadow-lg p-6">
+        <div className="w-full lg:w-[65%] bg-white rounded-xl shadow-lg p-6">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-extrabold">Your Cart</h1>
+            <h1 className="text-xl sm:text-2xl font-extrabold">Your Cart</h1>
 
             <button
               onClick={handleClearCart}
@@ -76,7 +76,7 @@ function Cart() {
               </div>
 
               <img
-                className="w-28 h-28 rounded-lg object-cover"
+                className="w-20 h-20 sm:w-28 sm:h-28 rounded-lg object-cover"
                 src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_300,h_300,c_fit/${item.imageId}`}
                 alt={item.name}
               />
@@ -85,7 +85,7 @@ function Cart() {
         </div>
 
         {/* RIGHT: BILL SUMMARY */}
-        <div className="w-[35%] bg-white rounded-xl shadow-lg p-6 h-fit">
+        <div className="w-full lg:w-[35%] bg-white rounded-xl shadow-lg p-6 h-fit">
           <h2 className="text-lg font-bold mb-4">Bill Details</h2>
 
           <div className="flex justify-between mb-2 text-gray-700">

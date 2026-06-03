@@ -86,7 +86,7 @@ function Navbar() {
         >
           <div
   className={
-    "bg-white w-[38%] h-full z-50 duration-300 " +
+    "bg-white w-full sm:w-[80%] md:w-[60%] lg:w-[38%] h-full z-50 duration-300 " +
     (visible ? "translate-x-0" : "-translate-x-full")
   }
   onClick={(e) => e.stopPropagation()}
@@ -155,7 +155,7 @@ function Navbar() {
 
         {/* ===================== NAVBAR (UNCHANGED) ===================== */}
         <div className="w-full sticky top-0 z-20 bg-white items-center flex justify-center shadow-lg overflow-hidden">
-          <div className="flex items-center w-[82%] justify-between p-3 h-20">
+          <div className="flex items-center w-[95%] sm:w-[90%] lg:w-[82%] justify-between p-3 h-20">
             <div className="flex items-center gap-12">
               <Link to={"/"}>
                 <img
@@ -175,7 +175,7 @@ function Navbar() {
 
                 {/* Address shown only if exists (prevents spacing issue) */}
                 {address && (
-                  <span className="line-clamp-1 max-w-[15rem] text-gray-600">
+                  <span className="hidden sm:block line-clamp-1 max-w-[15rem] text-gray-600">
                     {address}
                   </span>
                 )}
@@ -184,7 +184,7 @@ function Navbar() {
               </div>
             </div>
 
-            <div className="flex w-[63%] text-[16px] justify-between">
+            <div className="hidden lg:flex w-[63%] text-[16px] justify-between">
               <div className="flex items-center gap-1.5 cursor-pointer">
                 <i className="fi fi-bs-briefcase-blank mt-1"></i>
                 <p className="hover:text-orange-600 font-semibold">
