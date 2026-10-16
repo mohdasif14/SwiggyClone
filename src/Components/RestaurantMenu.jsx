@@ -12,7 +12,7 @@ function RestaurantMenu() {
 
   async function fetchMenu() {
     const data = await fetch(
-      `https://www.swiggy.com/mapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=${lat}&lng=${lon}&restaurantId=${id}`
+      `/api/swiggy/mapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=${lat}&lng=${lon}&restaurantId=${id}`
     );
     const result = await data.json();
 
