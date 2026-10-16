@@ -11,27 +11,36 @@ function RestaurantMenu() {
   const {coord:{lat,lon}} = useContext(Coordinates)
 
   async function fetchMenu() {
-    const data = await fetch(
-      `/api/swiggy/mapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=${lat}&lng=${lon}&restaurantId=${id}`
-    );
-    const result = await data.json();
+    try {
+      const data = await fetch(
+        `/api/swiggy/mapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=${lat}&lng=${lon}&restaurantId=${id}`
+      );
+      const result = await data.json();
+      const cards = result?.data?.cards || [];
 
-    // console.log(
-    //   result?.data?.cards[5]?.groupedCard?.cardGroupMap?.REGULAR?.cards
-    // );
-    setResInfo(result?.data?.cards[2]?.card?.card?.info);
-    setDiscountData(
-      result?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle?.offers
-    );
-    let actualMenu =
-      result?.data?.cards[5]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+      // restaurant info
+      const info =
+        cards.find((c) => c?.card?.card?.info)?.card?.card?.info || {};
+      setResInfo(info);
+
+      // offers
+      const offers =
+        cards.find((c) => c?.card?.card?.gridElements?.infoWithStyle?.offers)
+          ?.card?.card?.gridElements?.infoWithStyle?.offers || [];
+      setDiscountData(offers);
+
+      // menu
+      const groupedCard = cards.find((c) => c?.groupedCard);
+      const regular =
+        groupedCard?.groupedCard?.cardGroupMap?.REGULAR?.cards || [];
+      const actualMenu = regular.filter(
         (item) => item?.card?.card?.itemCards || item?.card?.card?.categories
       );
-    setTopPicksData(result?.data?.cards[5]);
-
-    // console.log(actualMenu);
-
-    setMenuData(actualMenu);
+      setTopPicksData(groupedCard || {});
+      setMenuData(actualMenu);
+    } catch (err) {
+      console.error("Menu fetch failed:", err);
+    }
   }
 
   useEffect(() => {
@@ -119,16 +128,16 @@ function RestaurantMenu() {
             ref={sliderRef}
             className="flex items-center overflow-x-scroll no-scrollbar scroll-smooth"
           >
-            {discountData.map(({ info }) => (
-              <div className="flex items-center gap-3 mr-3 p-3 border border-gray-400/40 rounded-2xl w-[280px] sm:w-82 h-19 shrink-0 mt-2">
+            {discountData?.map(({ info }, i) => (
+              <div key={i} className="flex items-center gap-3 mr-3 p-3 border border-gray-400/40 rounded-2xl w-[280px] sm:w-82 h-19 shrink-0 mt-2">
                 <img
                   src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,/${info?.offerLogo}`}
                   className="w-12 h-12"
                 />
                 <div>
-                  <p className="text-lg font-bold">{info.header}</p>
+                  <p className="text-lg font-bold">{info?.header}</p>
                   <p className="font-bold text-sm text-gray-500/80 mb-1">
-                    {info.couponCode}
+                    {info?.couponCode}
                   </p>
                 </div>
               </div>
@@ -192,7 +201,7 @@ function RestaurantMenu() {
         <div className="mt-5">
           {/* FIRST gray gap */}
 
-          {menuData.map(({ card: { card } }, i) => (
+          {menuData?.map(({ card: { card } }, i) => (
             <div key={card.title || i}>
               <div className="h-4 bg-gray-100"></div>
               <DetailMenu card={card} isNested={false} resInfo={resInfo}/>
@@ -217,7 +226,7 @@ function DetailMenu({ card, isNested,resInfo }) {
     if (!isAdded) {
       if (getInfoFromLS.id === resInfo.id || getInfoFromLS.length === 0) {
         setCartData((prev) => [...prev, info]);
-        localStorage.setItem("cartData", JSON.stringify(...cartData, info));
+        localStorage.setItem("cartData", JSON.stringify([...cartData, info]));
         localStorage.setItem("resInfo",JSON.stringify(resInfo))
       } else {
         alert("different restaurant")
@@ -260,12 +269,12 @@ function DetailMenu({ card, isNested,resInfo }) {
         {/* ITEMS */}
         {isOpen &&
           itemCards.map(({ card: { info } }) => (
-            <div>
-              <div key={info.id}
+            <div key={info.id}>
+              <div
                     className="flex flex-col md:flex-row gap-6 py-7 pl-2 sm:pl-4 items-center">
                 <div className="flex-1 gap-3 w-full md:w-[70%]">
                   <p>
-                    {info.itemAttribute.vegClassifier === "VEG" ? (
+                    {info.itemAttribute?.vegClassifier === "VEG" ? (
                       <img
                         className="w-4"
                         src="https://tse1.mm.bing.net/th/id/OIP.j80S21_H0kqUzxFVezy8GQHaHw?rs=1&pid=ImgDetMain&o=7&rm=3"
@@ -342,7 +351,7 @@ function DetailMenu({ card, isNested,resInfo }) {
         </h2>
 
         {card.categories.map((sub, i) => (
-          <DetailMenu key={sub.title || i} card={sub} isNested={true} />
+          <DetailMenu key={sub.title || i} card={sub} isNested={true} resInfo={resInfo} />
         ))}
       </div>
     );
